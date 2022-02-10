@@ -1,0 +1,14 @@
+body {
+  text-align: center;
+  background-color: rgb(28, 122, 194);
+}
+.load {
+  color: #fff;
+  margin: auto;
+  margin-top: 5%;
+  width: 15%;
+}
+.load:hover {
+  color: black;
+  cursor: pointer;
+}
