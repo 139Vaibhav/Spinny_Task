@@ -28,39 +28,8 @@ function Header() {
   const [txt, setTxt] = useState("");
   let [searchtxt, setSearchTxt] = useState("");
   const [nodatafound, setNoDatafound] = useState(false);
-  const [list, setL] = useState("");
   let pageNum = useSelector((state) => state.load);
-  const listCard = useSelector((state) => state.cardList);
   const apiUrl = "https://api.jikan.moe/v3/search/anime?q=";
-  const getCards = () => {
-    console.log(searchtxt);
-    if (!!searchtxt)
-      axios
-        .get(`${apiUrl}${searchtxt}&limit=16&page=${pageNum}`)
-        .then((res) => {
-          if (res.data.total === 0);
-          else {
-            console.log(res);
-            let tmpList = [...(pageNum === 1 ? [] : listCard)];
-            res.data.results.map(
-              (item) =>
-              (tmpList = [
-                ...tmpList,
-                [item.image_url, item.title, item.mal_id],
-              ])
-            );
-            setL(tmpList);
-            dispatch(setList([...tmpList]));
-          }
-          setNoDatafound(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setNoDatafound(true);
-          setL([]);
-          dispatch(setList([]));
-        });
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
     searchtxt = txt;
@@ -68,11 +37,14 @@ function Header() {
     window.scrollTo(0, 0);
     dispatch(reset());
     pageNum = 1;
-    getCards();
+    dispatch(setList(searchtxt, pageNum));
     setTxt("");
   };
   useEffect(() => {
-    if (pageNum !== 1) getCards();
+    if (pageNum !== 1) {
+      pageNum++;
+      dispatch(setList(searchtxt, pageNum));
+    };
   }, [pageNum]);
 
   return (

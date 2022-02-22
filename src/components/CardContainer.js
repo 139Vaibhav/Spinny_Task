@@ -5,8 +5,7 @@ import { useSelector } from "react-redux";
 
 function CardContainer() {
   const list = useSelector((state) => state.cardList);
-  const listdata = useSelector((state) => state.nodata);
-  console.log("The data in list is " + listdata);
+  console.log("List is " + list);
   return (
     <div className="CardContainer">
       {/* {console.log("list ", list)} */}
